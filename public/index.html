@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Write Human</title>
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="vendor/motion.js" defer></script>
+</head>
+<body>
+  <!-- ================= Signed out ================= -->
+  <div id="welcome" class="welcome-page" hidden>
+    <header class="welcome-top"><img src="logo.svg" alt="" width="30" height="30"><span>Write Human</span></header>
+    <main class="welcome">
+      <h1 class="reveal">Post what you want, in your own voice.</h1>
+      <p class="lede reveal">Paste a draft or a few notes. Write Human rewrites it so it sounds like you: no stock phrases, no assistant tone, no invented details.</p>
+      <div class="glow-wrap reveal">
+        <button class="chatgpt-button" id="sign-in" type="button">
+          <img class="logo-on-black" src="chatgpt-button-white-21.svg" alt="" width="22" height="22">
+          <img class="logo-on-white" src="chatgpt-button-black-21.svg" alt="" width="22" height="22">
+          <span id="sign-in-label">Continue with ChatGPT</span>
+        </button>
+      </div>
+      <p class="fine reveal">Requires a ChatGPT plan.</p>
+      <button class="link reveal" id="cancel-sign-in" type="button" hidden>Cancel sign-in</button>
+      <p class="error" id="welcome-error" role="alert" hidden></p>
+
+      <div class="carousel reveal" id="carousel" aria-label="Features">
+        <div class="carousel-track" id="carousel-track"></div>
+      </div>
+
+      <section class="trust reveal" aria-labelledby="trust-title">
+        <span class="trust-badge"><i data-icon="seal-check"></i>Research-backed</span>
+        <h2 id="trust-title">Built on how AI writing actually gets caught.</h2>
+        <p>Every rule in Write Human comes from peer-reviewed studies and the same field guide Wikipedia's editors use to spot AI text. It goes after what readers notice first, the assistant voice, and leaves your facts, citations and opinions alone.</p>
+        <div class="trust-stats">
+          <div><b>25+</b><span>AI-writing patterns checked</span></div>
+          <div><b>Exact</b><span>citations and quotes, locked before rewriting</span></div>
+          <div><b>$0</b><span>to use, with your ChatGPT plan</span></div>
+        </div>
+      </section>
+
+      <section class="compare reveal" aria-labelledby="compare-title">
+        <h2 id="compare-title">What paid humanizers charge for. Free.</h2>
+        <div class="compare-table" role="table">
+          <div class="compare-row head" role="row"><span role="columnheader"></span><span role="columnheader" class="us"><img src="logo.svg" alt="" width="18" height="18">Write Human</span><span role="columnheader">Typical paid humanizer</span></div>
+          <div class="compare-row" role="row"><span role="cell">Price</span><span role="cell" class="us"><b>Free</b></span><span role="cell">Monthly subscription</span></div>
+          <div class="compare-row" role="row"><span role="cell">Learns and writes in your own voice</span><span role="cell" class="us"><i data-icon="check-circle"></i></span><span role="cell" class="no">Preset tones</span></div>
+          <div class="compare-row" role="row"><span role="cell">Locks citations and quotes</span><span role="cell" class="us"><i data-icon="check-circle"></i></span><span role="cell" class="no">Varies</span></div>
+          <div class="compare-row" role="row"><span role="cell">Asks for real details instead of inventing them</span><span role="cell" class="us"><i data-icon="check-circle"></i></span><span role="cell" class="no">Varies</span></div>
+          <div class="compare-row" role="row"><span role="cell">Highlights AI tells and fixes them one by one</span><span role="cell" class="us"><i data-icon="check-circle"></i></span><span role="cell" class="no">Sometimes</span></div>
+          <div class="compare-row" role="row"><span role="cell">Grammar check, word targets, saved docs</span><span role="cell" class="us"><i data-icon="check-circle"></i></span><span role="cell" class="no">Often paid add-ons</span></div>
+          <div class="compare-row" role="row"><span role="cell">Docs saved on your own computer</span><span role="cell" class="us"><i data-icon="check-circle"></i></span><span role="cell" class="no">Their cloud</span></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ================= Signed in: shell ================= -->
+  <div id="shell" class="shell" hidden>
+    <aside class="nav" aria-label="Main">
+      <div class="nav-brand"><img src="logo.svg" alt="" width="28" height="28"><span>Write Human</span><span class="nav-plan" id="nav-plan" title="Write Human is free. It uses your ChatGPT plan.">Free</span></div>
+      <nav class="nav-list">
+        <button type="button" data-view="docs" class="nav-item active"><i data-icon="files"></i>Docs</button>
+        <button type="button" data-view="voice" class="nav-item"><i data-icon="microphone-stage"></i>Your voice<span class="nav-dot" id="nav-voice-dot" hidden></span></button>
+        <button type="button" data-view="detectors" class="nav-item"><i data-icon="detective"></i>AI detectors</button>
+        <button type="button" data-view="usage" class="nav-item"><i data-icon="chart-bar"></i>Usage</button>
+      </nav>
+      <div class="nav-bottom">
+        <a class="nav-item external" href="https://chatgpt.com/settings/usage" target="_blank" rel="noopener"><img class="mono-logo" src="chatgpt-usage-20.svg" alt="" width="20" height="20">Manage ChatGPT usage<i class="go" data-icon="arrow-up-right"></i></a>
+        <button type="button" class="nav-item sign-out" id="sign-out">
+          <i data-icon="sign-out"></i>
+          <span class="sign-out-text"><span>Sign out</span><small><span id="account-name"></span> · <span id="account-email"></span></small></span>
+        </button>
+        <span class="avatar" id="avatar" hidden aria-hidden="true"></span>
+      </div>
+    </aside>
+
+    <main class="content">
+      <div class="skeleton-page" id="view-skeleton" hidden>
+        <div class="sk sk-title"></div><div class="sk sk-line"></div>
+        <div class="sk-grid"><div class="sk sk-card"></div><div class="sk sk-card"></div><div class="sk sk-card"></div></div>
+      </div>
+
+      <!-- Docs home -->
+      <section id="view-docs" class="view">
+        <div class="banner" id="voice-banner" hidden>
+          <div>
+            <h2>Teach Write Human your voice</h2>
+            <p>Paste two or three things you've written. Every rewrite after that follows your habits instead of a generic default.</p>
+            <div class="row">
+              <button class="button primary" type="button" data-view="voice"><i data-icon="microphone-stage"></i>Set up my voice</button>
+              <button class="button text" type="button" id="dismiss-banner">Maybe later</button>
+            </div>
+          </div>
+          <img class="banner-art" src="logo.svg" alt="" width="96" height="96">
+          <button class="icon-button banner-close" type="button" id="close-banner" aria-label="Dismiss"><i data-icon="x"></i></button>
+        </div>
+        <div class="docs-head">
+          <h1>Docs</h1>
+          <button class="button primary" type="button" id="new-doc"><i data-icon="plus"></i>New doc</button>
+          <label class="search"><i data-icon="magnifying-glass"></i><input id="search" type="search" name="wh-doc-search" placeholder="Search docs" aria-label="Search docs" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-form-type="other"></label>
+        </div>
+        <div class="quick">
+          <span class="quick-label">Start something</span>
+          <button type="button" data-start="linkedin"><i data-icon="linkedin-logo"></i>LinkedIn post</button>
+          <button type="button" data-start="email"><i data-icon="envelope-simple"></i>Email</button>
+          <button type="button" data-start="essay"><i data-icon="graduation-cap"></i>Essay</button>
+          <button type="button" data-start="blog"><i data-icon="newspaper"></i>Blog post</button>
+          <button type="button" data-start="slack"><i data-icon="slack-logo"></i>Slack message</button>
+        </div>
+        <div id="docs-groups"></div>
+        <div class="docs-empty" id="docs-empty" hidden>
+          <i data-icon="note-pencil"></i>
+          <h3>No docs yet</h3>
+          <p>Start a new doc and paste a draft or some notes.</p>
+        </div>
+      </section>
+
+      <!-- Voice -->
+      <section id="view-voice" class="view voice-view" hidden>
+        <div class="voice-hero">
+          <div class="voice-hero-icon"><i data-icon="user-sound"></i></div>
+          <div class="voice-hero-text">
+            <span class="status-pill" id="voice-status-pill">Not set up</span>
+            <h1>Your voice</h1>
+            <p>Write Human studies how you actually write, then follows it on every rewrite: your sentence length, your words, your punctuation, how you open and close.</p>
+          </div>
+        </div>
+
+        <ol class="voice-steps">
+          <li id="vs-1"><span>1</span>Paste your writing</li>
+          <li id="vs-2"><span>2</span>Learn your voice</li>
+          <li id="vs-3"><span>3</span>Review what it found</li>
+        </ol>
+
+        <div class="voice-grid">
+          <section class="voice-samples" id="voice-samples-box">
+            <div class="vs-head">
+              <h2><i data-icon="note-pencil"></i>Your writing</h2>
+              <span class="hint" id="sample-total">0 words</span>
+            </div>
+            <p class="hint">Posts, emails, school work, anything that sounds like you. Two or three pieces of 150+ words each works best.</p>
+            <div id="samples"></div>
+            <button class="button text" type="button" id="add-sample"><i data-icon="plus-circle"></i>Add another sample</button>
+            <div class="learn-wrap" id="learn-wrap">
+              <button class="learn-button" id="learn-voice" type="button"><i data-icon="sparkle"></i><span>Learn my voice</span></button>
+            </div>
+            <p class="working-text" id="voice-hint" aria-live="polite"></p>
+          </section>
+
+          <section class="voice-profile">
+            <div class="vs-head">
+              <h2><i data-icon="fingerprint"></i>Your writing fingerprint</h2>
+              <button class="button text" type="button" id="toggle-profile-edit"><i data-icon="pencil-simple-line"></i><span>Edit</span></button>
+            </div>
+            <div class="traits" id="traits"></div>
+            <textarea id="voice-profile" rows="12" hidden placeholder="One habit per line, starting with a dash."></textarea>
+            <div class="row end"><span class="hint" id="voice-saved"></span><button class="button primary" id="save-voice" type="button" hidden><i data-icon="check"></i>Save changes</button></div>
+          </section>
+        </div>
+      </section>
+
+      <!-- AI detectors -->
+      <section id="view-detectors" class="view narrow" hidden>
+        <h1><i data-icon="detective"></i>AI detectors</h1>
+        <p class="sub">Want a second opinion? Click any of these and your latest text is copied automatically, so you just press Ctrl+V when the page opens. Detectors often disagree and sometimes flag real human writing, so treat any score as a rough signal, not a verdict.</p>
+        <div class="detector-list" id="detector-list"></div>
+      </section>
+
+      <!-- Usage -->
+      <section id="view-usage" class="view narrow" hidden>
+        <h1><i data-icon="chart-bar"></i>Usage</h1>
+        <p class="sub">What you've done in Write Human. Your ChatGPT plan's actual limits live in ChatGPT settings.</p>
+        <div id="usage-card"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ================= Editor ================= -->
+  <div id="editor" class="editor" hidden>
+    <header class="ed-top">
+      <button class="icon-button" type="button" id="back" aria-label="Back to docs" title="Back to docs"><i data-icon="arrow-left"></i></button>
+      <span class="doc-icon"><i data-icon="file-text"></i></span>
+      <input class="title-input" id="doc-title" name="wh-doc-title" aria-label="Doc title" maxlength="120" autocomplete="off" data-1p-ignore data-lpignore="true" data-form-type="other">
+      <div class="ed-top-right">
+        <button class="score" type="button" id="score" title="Based on the AI-writing patterns this app checks. Not an AI-detector result."><span id="score-value">--</span> Human feel</button>
+        <button class="button text" type="button" id="copy" hidden><i data-icon="copy"></i><span>Copy</span></button>
+      </div>
+    </header>
+
+    <div class="ed-body">
+      <main class="ed-main">
+        <div class="ed-column">
+          <div class="tabs" role="tablist" aria-label="View">
+            <button type="button" role="tab" id="tab-input" aria-selected="true">Your text</button>
+            <button type="button" role="tab" id="tab-output" aria-selected="false" disabled><i data-icon="magic-wand"></i>Rewritten</button>
+          </div>
+          <div id="panel-input">
+            <textarea id="input" placeholder="Paste your draft here, or type some rough notes…" aria-label="Your text"></textarea>
+            <div class="checked" id="checked-view" hidden></div>
+          </div>
+          <div id="panel-output" hidden>
+            <div class="notice" id="notice" hidden></div>
+            <div class="output-wrap" id="output-wrap"><div class="output-text" id="output" aria-live="polite"></div></div>
+          </div>
+        </div>
+
+        <div class="ed-bottom">
+          <div class="chips" role="radiogroup" aria-label="Where is this going?" id="channels">
+            <button type="button" role="radio" data-channel="linkedin"><i data-icon="linkedin-logo"></i>LinkedIn</button>
+            <button type="button" role="radio" data-channel="email"><i data-icon="envelope-simple"></i>Email</button>
+            <button type="button" role="radio" data-channel="essay"><i data-icon="graduation-cap"></i>Essay</button>
+            <button type="button" role="radio" data-channel="blog"><i data-icon="newspaper"></i>Blog</button>
+            <button type="button" role="radio" data-channel="slack"><i data-icon="slack-logo"></i>Slack</button>
+            <button type="button" role="radio" data-channel="general"><i data-icon="pen-nib"></i>Other</button>
+          </div>
+          <div class="bar">
+            <div class="mode" role="radiogroup" aria-label="What are you pasting?" id="modes">
+              <button type="button" role="radio" data-mode="rewrite">Draft</button>
+              <button type="button" role="radio" data-mode="write">Notes</button>
+            </div>
+            <span class="divider"></span>
+            <button class="bar-button" type="button" id="check-input"><i data-icon="magnifying-glass"></i>Check</button>
+            <button class="bar-button" type="button" id="stop" hidden><i data-icon="stop"></i>Stop</button>
+            <button class="rewrite-button" type="button" id="rewrite"><i data-icon="magic-wand"></i><span>Rewrite in my voice</span></button>
+          </div>
+          <div class="plan">
+            <img class="mono-logo" src="chatgpt-usage-20.svg" alt="" width="16" height="16">
+            <span>Using ChatGPT plan</span>
+            <a class="external-inline" href="https://chatgpt.com/settings/usage" target="_blank" rel="noopener">Manage usage<i class="go" data-icon="arrow-up-right"></i></a>
+            <div class="model-menu" id="model-menu">
+              <button type="button" class="model-button" id="model-button" aria-haspopup="listbox" aria-expanded="false"><i data-icon="sparkle"></i><span id="model-label">Model</span><i data-icon="caret-down"></i></button>
+              <ul class="model-list" id="model-list" role="listbox" aria-label="Model" hidden></ul>
+            </div>
+          </div>
+        </div>
+        <div class="ed-status">
+          <button class="words-pill" type="button" id="words-pill"><span id="word-count">0</span> words <i data-icon="caret-down"></i></button>
+          <span class="saved" id="saved-state"></span>
+        </div>
+      </main>
+
+      <aside class="ed-panel" id="ed-panel" aria-live="polite">
+        <div class="panel-skeleton" id="panel-skeleton" hidden>
+          <div class="sk sk-title"></div><div class="sk sk-bar"></div><div class="sk sk-block"></div><div class="sk sk-block"></div><div class="sk sk-block"></div>
+        </div>
+
+        <section class="tool" data-tool="suggestions">
+          <h2><i data-icon="list-checks"></i>Suggestions</h2>
+          <div class="quality">
+            <div class="quality-row"><span>Human feel</span><b id="quality-value">--</b></div>
+            <div class="meter"><span id="quality-bar"></span></div>
+          </div>
+          <div class="empty" id="suggestions-empty">
+            <i data-icon="magnifying-glass"></i>
+            <div><b>No suggestions yet</b><p>Click <b>Check</b> to scan for AI-sounding phrases. It's free and doesn't use your plan.</p></div>
+          </div>
+          <div class="rhythm" id="rhythm" hidden>
+            <div class="rhythm-label"><i data-icon="waveform"></i><span id="rhythm-text"></span></div>
+            <div class="bars" id="bars" aria-hidden="true"></div>
+          </div>
+          <ul class="suggestions" id="suggestions"></ul>
+        </section>
+
+        <section class="tool" data-tool="grammar" hidden>
+          <h2><i data-icon="text-t"></i>Grammar</h2>
+          <p class="tool-text">Spelling and grammar from LanguageTool, a free, open-source checker. Your text is sent to LanguageTool's servers only when you click the button.</p>
+          <button class="button primary full" type="button" id="run-grammar"><i data-icon="magnifying-glass"></i><span>Check grammar</span></button>
+          <ul class="grammar-list" id="grammar-list"></ul>
+        </section>
+
+        <section class="tool" data-tool="voice" hidden>
+          <h2><i data-icon="microphone-stage"></i>Your voice</h2>
+          <div class="traits compact" id="panel-traits"></div>
+          <button class="button soft full" type="button" id="edit-voice"><i data-icon="pencil-simple-line"></i><span>Edit my voice</span></button>
+        </section>
+
+        <section class="tool" data-tool="locked" hidden>
+          <h2><i data-icon="lock-key"></i>Locked text</h2>
+          <p class="tool-text">Citations, links, quotes and code are never sent to be rewritten. They come back exactly as you wrote them. A reference list at the end isn't sent at all.</p>
+          <div class="lock-box">
+            <b><i data-icon="cursor-text"></i>Lock your own text</b>
+            <p class="hint">Highlight anything in your text, a name, a phrase, a whole sentence, then click Lock. It won't be reworded.</p>
+            <button class="button primary full" type="button" id="lock-selection"><i data-icon="lock-key"></i><span>Lock highlighted text</span></button>
+          </div>
+          <h3 class="lock-head">Locked by you</h3>
+          <ul class="locked-list" id="my-locks"></ul>
+          <h3 class="lock-head">Locked automatically</h3>
+          <ul class="locked-list" id="locked-list"></ul>
+        </section>
+
+        <section class="tool" data-tool="count" hidden>
+          <h2><i data-icon="hash"></i>Word count</h2>
+          <div class="big-count"><b id="big-words">0</b><span>words</span></div>
+          <label class="field-label small" for="target-words">Target word count</label>
+          <div class="row nowrap">
+            <input id="target-words" name="wh-target-words" type="number" min="20" max="5000" placeholder="e.g. 200" autocomplete="off" data-1p-ignore data-lpignore="true">
+            <button class="button primary" type="button" id="adjust-length" disabled>Rewrite to length</button>
+          </div>
+          <dl class="count-list">
+            <div><dt>Characters</dt><dd id="c-chars">0</dd></div>
+            <div><dt>Sentences</dt><dd id="c-sentences">0</dd></div>
+            <div><dt>Paragraphs</dt><dd id="c-paragraphs">0</dd></div>
+            <div><dt>Reading time</dt><dd id="c-reading">0 min</dd></div>
+            <div><dt>Speaking time</dt><dd id="c-speaking">0 min</dd></div>
+          </dl>
+        </section>
+
+        <section class="tool" data-tool="detectors" hidden>
+          <h2><i data-icon="detective"></i>AI detectors</h2>
+          <button class="button primary full" type="button" id="copy-for-detector"><i data-icon="copy"></i><span>Copy this text</span></button>
+          <div class="detector-list compact" id="panel-detectors"></div>
+        </section>
+
+        <section class="tool" data-tool="usage" hidden>
+          <h2><i data-icon="chart-bar"></i>Usage</h2>
+          <div id="panel-usage"></div>
+        </section>
+      </aside>
+
+      <nav class="rail" aria-label="Tools" id="rail">
+        <button type="button" data-tool="suggestions" class="active" title="Suggestions"><i data-icon="list-checks"></i><span class="rail-badge" id="rail-count" hidden></span></button>
+        <button type="button" data-tool="grammar" title="Grammar"><i data-icon="text-t"></i></button>
+        <button type="button" data-tool="voice" title="Your voice"><i data-icon="microphone-stage"></i></button>
+        <button type="button" data-tool="locked" title="Locked text"><i data-icon="lock-key"></i></button>
+        <button type="button" data-tool="count" title="Word count"><i data-icon="hash"></i></button>
+        <button type="button" data-tool="detectors" title="AI detectors"><i data-icon="detective"></i></button>
+        <button type="button" data-tool="usage" title="Usage"><i data-icon="chart-bar"></i></button>
+        <span class="rail-spacer"></span>
+        <span class="avatar small" id="rail-avatar" aria-hidden="true"></span>
+      </nav>
+    </div>
+  </div>
+
+  <dialog id="first-run">
+    <img class="mono-logo" src="chatgpt-dialog-72.svg" alt="" width="64" height="64">
+    <h2>You're using your ChatGPT plan</h2>
+    <p>Rewrites in Write Human count toward your ChatGPT plan's usage. You can see and limit how much this app uses in ChatGPT settings.</p>
+    <form method="dialog"><button class="button primary">Got it</button></form>
+  </dialog>
+
+  <dialog id="limit">
+    <img class="mono-logo" src="chatgpt-dialog-72.svg" alt="" width="64" height="64">
+    <h2>Usage limit reached</h2>
+    <p>Review your plan or this app's limit in ChatGPT settings.</p>
+    <div class="row center">
+      <a class="button primary" href="https://chatgpt.com/settings/usage" target="_blank" rel="noopener">Manage usage</a>
+      <form method="dialog"><button class="button ghost">Close</button></form>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

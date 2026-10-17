@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Set up Write Human</title>
+  <meta name="description" content="Install Write Human on your computer in three steps, then sign in with ChatGPT.">
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="site.css">
+  <script src="vendor/motion.js" defer></script>
+</head>
+<body>
+  <div class="welcome-page">
+    <header class="site-top">
+      <a class="site-brand" href="./"><img src="logo.svg" alt="" width="30" height="30"><span>Write Human</span><span class="nav-plan">Free</span></a>
+      <a class="button ghost" href="https://github.com/Nickkk66/write-human" rel="noopener"><i data-icon="github-logo"></i>View on GitHub</a>
+    </header>
+
+    <main class="welcome setup">
+      <span class="trust-badge reveal"><i data-icon="download-simple"></i>About 2 minutes</span>
+      <h1 class="reveal">Set up Write Human</h1>
+      <p class="lede reveal">It runs on your own computer, so your docs stay with you. Do this once, then sign in with ChatGPT.</p>
+
+      <section class="install reveal" aria-label="Setup steps">
+        <p class="install-sub">You need <a href="https://nodejs.org/" rel="noopener">Node.js 22.12 or newer</a>, <a href="https://git-scm.com/" rel="noopener">Git</a>, and a ChatGPT Go, Plus, or Pro plan. Run these in a terminal (on Windows, PowerShell).</p>
+        <ol class="install-steps">
+          <li><span class="num">1</span><div><b>Download it</b><div class="code"><pre><code>git clone https://github.com/Nickkk66/write-human.git
+cd write-human</code></pre><button class="copy" type="button" aria-label="Copy"><i data-icon="copy"></i></button></div></div></li>
+          <li><span class="num">2</span><div><b>Set it up</b><div class="code"><pre><code>npm run setup</code></pre><button class="copy" type="button" aria-label="Copy"><i data-icon="copy"></i></button></div><p>This installs everything it needs, including OpenAI's official sign-in kit.</p></div></li>
+          <li><span class="num">3</span><div><b>Start it</b><div class="code"><pre><code>npm start</code></pre><button class="copy" type="button" aria-label="Copy"><i data-icon="copy"></i></button></div><p>Leave that window open while you use Write Human.</p></div></li>
+          <li class="final"><span class="num">4</span><div>
+            <b>Sign in</b>
+            <p>Once it's running, this opens Write Human on your computer and signs you in with your ChatGPT plan.</p>
+            <div class="glow-wrap signin-wrap">
+              <a class="chatgpt-button" href="http://127.0.0.1:4848/">
+                <img class="logo-on-black" src="chatgpt-button-white-21.svg" alt="" width="22" height="22">
+                <img class="logo-on-white" src="chatgpt-button-black-21.svg" alt="" width="22" height="22">
+                <span>Continue with ChatGPT</span>
+              </a>
+            </div>
+            <p class="hint">Nothing loads? Check that the <code>npm start</code> window is still open.</p>
+          </div></li>
+        </ol>
+      </section>
+    </main>
+
+    <footer class="site-foot">
+      <p>Write Human is a free, independent project. It isn't made by or affiliated with OpenAI. ChatGPT is a trademark of OpenAI.</p>
+    </footer>
+  </div>
+  <script type="module" src="site.js"></script>
+</body>
+</html>

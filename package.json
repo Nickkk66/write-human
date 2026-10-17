@@ -1,0 +1,31 @@
+{
+  "name": "write-human",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Rewrites drafts in your own voice using your ChatGPT plan. Runs locally.",
+  "type": "module",
+  "scripts": {
+    "setup": "npm install && node scripts/fetch-sdk.mjs && npm run build:sdk && npm run build:assets",
+    "build:sdk": "tsc -p vendor/siwc-devkit/packages/local/tsconfig.json",
+    "start": "node server.mjs",
+    "test": "node --test test/*.test.mjs",
+    "build:assets": "node scripts/build-assets.mjs",
+    "build:site": "node scripts/build-site.mjs"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "dependencies": {
+    "@napi-rs/keyring": "^2.1.1",
+    "@phosphor-icons/core": "^2.1.1",
+    "jose": "^6.1.0",
+    "motion": "^14.3.0",
+    "openai": "^7.21.0",
+    "proper-lockfile": "^4.1.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/proper-lockfile": "^4.1.4",
+    "typescript": "^7.0.2"
+  }
+}

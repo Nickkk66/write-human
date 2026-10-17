@@ -1,0 +1,9 @@
+node_modules/
+/vendor/
+public/vendor/
+public/icons.js
+public/chatgpt-*.svg
+**/.impeccable/
+.impeccable/
+*.tmp
+.DS_Store

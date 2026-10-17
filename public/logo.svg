@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#34d399"/>
+      <stop offset="1" stop-color="#0d8f6a"/>
+    </linearGradient>
+    <mask id="bite">
+      <rect width="64" height="64" fill="#fff"/>
+      <circle cx="55" cy="9" r="10" fill="#000"/>
+      <circle cx="60.5" cy="22" r="7" fill="#000"/>
+      <circle cx="46" cy="4" r="6" fill="#000"/>
+    </mask>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="17" fill="url(#g)" mask="url(#bite)"/>
+  <g fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M31 17 L42 33 L31 49 L20 33 Z"/>
+    <path d="M31 49 V36"/>
+  </g>
+  <circle cx="31" cy="32.5" r="3.2" fill="#fff"/>
+</svg>
